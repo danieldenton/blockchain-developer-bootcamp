@@ -9,7 +9,7 @@ describe("Token", () => {
 	let token
 	beforeEach(async () => {
 		const Token = await ethers.getContractFactory("Token")
-		token = await Token.deploy()
+		token = await Token.deploy("Pile Coin", "PC", "1000000")
 	})
 	it("has correct name", async () => { 
 		expect(await token.name()).to.equal("Pile Coin")
