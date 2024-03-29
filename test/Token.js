@@ -63,7 +63,7 @@ describe("Token", () => {
 
 		})	
 		describe("Failure", () => {
-			it("rejects insufficient balanes", async () => {
+			it("rejects insufficient balances", async () => {
 				const invalidAmount = tokens(1000000000)
 				await expect(token.connect(deployer).transfer(receiver.address, invalidAmount)).to.be.reverted
 			})
@@ -106,4 +106,28 @@ describe("Token", () => {
 			
 		})
 	})
+	describe("Delegated token transfers", () => {
+		let amount, transaction, result 
+
+		beforeEach(async () => {
+			amount = tokens(100)
+			transaction  = await token.connect(deployer).approve(exchange.address, amount)
+			result = await transaction.wait()
+		})
+		describe("Success", () => {
+			beforeEach(async () => {
+				transaction  = await token.connect(exchange).transferFrom(deployer.address, receiver.address, amount)
+				result = await transaction.wait()
+			})
+			it("transfers token balances", async () => {
+				expect(await token.balanceOf(deployer.address)).to.equal(tokens(999900))
+				expect(await token.balanceOf(receiver.address)).to.equal(amount)
+			})
+		})
+		describe("Failure", () => {
+			it("allocates an allowance for delegated token spending", async () => {
+			})
+		})
+	})
+
 })	
