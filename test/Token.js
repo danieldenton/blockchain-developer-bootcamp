@@ -95,6 +95,14 @@ describe("Token", () => {
 			})
 		})
 		describe("Faillure", () => {
+			it("rejects insufficient balanes", async () => {
+				const invalidAmount = tokens(1000000000)
+				await expect(token.connect(deployer).transfer(receiver.address, invalidAmount)).to.be.reverted
+			})
+			it("rejects invalid spenders", async () => {
+				const amount = tokens(100)
+				await expect(token.connect(deployer).approve('0x0000000000000000000000000000000000000000', amount)).to.be.reverted
+			})
 			
 		})
 	})
