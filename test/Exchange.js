@@ -6,7 +6,7 @@ const tokens = (n) => {
 }
 
 describe("Exchange", () => {
-	let feeAcount, deployer
+	let deployer, feeAccount, exchange
 
 	beforeEach(async () => {
 		accounts = await ethers.getSigners()
@@ -14,11 +14,11 @@ describe("Exchange", () => {
 		feeAccount = accounts[1]
 
 		const Exchange = await ethers.getContractFactory("Exchange")
-		token = await Token.deploy(feeAcount.address)
+		exchange = await Exchange.deploy(feeAccount.address)
 	})
 	describe("Deployment", () => {
 		it("tracks the fee account", async () => { 
-			expect(await token.feeAcount()).to.equal(feeAcount.address)
+			expect(await exchange.feeAccount()).to.equal(feeAccount.address)
 		})	
 	})	
 })	
