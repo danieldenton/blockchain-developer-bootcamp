@@ -47,6 +47,17 @@ describe("Exchange", () => {
 		describe("Success", () => {
 			it("tracks the token deposit", async () => {
 				expect(await token1.balanceOf(exchange.address)).to.equal(amount)
+				expect(await exchange.tokens(token1.address, user1.address)).to.equal(amount)
+				expect(await exchange.balanceOf(token1.address, user1.address)).to.equal(amount)
+			})
+			it("emits a Deposit event", () => {
+				const event = result.events[1]
+				expect(event.event).to.equal("Deposit")
+				const args = event.args
+				expect(args.token).to.equal(token1.address)
+				expect(args.user).to.equal(user1.address)
+				expect(args.amount).to.equal(amount)
+				expect(args.balance).to.equal(amount)
 			})
 		})
 		describe("Failure", () => {
