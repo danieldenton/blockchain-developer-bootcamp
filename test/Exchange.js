@@ -66,6 +66,18 @@ describe("Exchange", () => {
 			await expect(exchange.connect(user1).depositToken(token1.address, amount)).to.be.reverted
 			})
 		})
-
 	})
-})	
+	describe("Checking Balances", () => {
+		let transaction, result
+		let amount = tokens(1)
+		beforeEach(async() => {		
+			transaction = await token1.connect(user1).approve(exchange.address, amount)
+			result = await transaction.wait()
+			transaction = await exchange.connect(user1).depositToken(token1.address, amount)
+			result = await transaction.wait()
+		})
+		it("returns user balance", async () => {
+			expect(await exchange.balanceOf(token1.address, user1.address)).to.equal(amount)
+		})
+	})	
+})
