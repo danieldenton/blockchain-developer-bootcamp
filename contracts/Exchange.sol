@@ -78,6 +78,8 @@ contract Exchange {
 		uint256 _amountGive
 	) public {
 
+		require(balanceOf(_tokenGive, msg.sender) >= _amountGive);
+
 		orderCount = orderCount + 1;
 
 		orders[orderCount] = _Order(
