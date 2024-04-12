@@ -12,8 +12,27 @@ contract Exchange {
 	uint256 public orderCount;
 
 
-	event Deposit(address token, address user, uint256 amount, uint256 balance);
-	event Withdraw(address token, address user, uint256 amount, uint256 balance);
+	event Deposit(
+		address token,
+		address user, 
+		uint256 amount, 
+		uint256 balance
+	);
+	event Withdraw(
+		address token, 
+		address user, 
+		uint256 amount, 
+		uint256 balance
+		);
+	event Order(
+		uint256 id, 
+		address user, 
+		address tokenGet, 
+		uint256 amountGet, 
+		address tokenGive, 
+		uint256 amountGive, 
+		uint256 timestamp
+	);
 
 	struct _Order {
 		uint256 id;
@@ -62,6 +81,16 @@ contract Exchange {
 		orderCount = orderCount + 1;
 
 		orders[orderCount] = _Order(
+			orderCount, 
+			msg.sender,
+			_tokenGet,
+			_amountGet,
+			_tokenGive,
+			_amountGive,
+			block.timestamp
+		);
+
+		emit Order(
 			orderCount, 
 			msg.sender,
 			_tokenGet,
