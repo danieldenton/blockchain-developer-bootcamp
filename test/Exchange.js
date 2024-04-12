@@ -21,6 +21,7 @@ describe("Exchange", () => {
 		deployer = accounts[0]
 		feeAccount = accounts[1]
 		user1 = accounts[2]
+		user2 = accounts[3]
 
 		let transaction = await token1.connect(deployer).transfer(user1.address, tokens(100))
 		await transaction.wait()
@@ -185,6 +186,15 @@ describe("Exchange", () => {
 					expect(args.tokenGive).to.equal(token1.address)
 					expect(args.amountGive).to.equal(tokens(1))
 					expect(args.timestamp).to.at.least(1)
+				})
+			})
+			describe("Failure", () => {
+				it("rejects invalid order ids", async () => {
+					const invalidOrderId = 999
+					await expect(exchange.connect(user1).cancelOrder(invalidOrderId)).to.be.reverted
+				})
+				it("rejects unauthorized canelations", async () => {
+					await expect(exchange.connect(user2).cancelOrder(1)).to.be.reverted
 				})
 			})
 		})
