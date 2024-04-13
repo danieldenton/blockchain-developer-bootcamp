@@ -6,11 +6,12 @@ import "./Token.sol";
 
 contract Exchange { 
 	address public feeAccount;
-	uint public feePercent;
+	uint256 public feePercent;
 	mapping(address => mapping(address => uint256)) public tokens;
 	mapping(uint256 => _Order) public orders;
 	uint256 public orderCount;
 	mapping(uint256 => bool) public orderCancelled;
+	mapping(uint256 => bool) public orderFilled;
 
 
 	event Deposit(
@@ -41,6 +42,17 @@ contract Exchange {
 		uint256 amountGet, 
 		address tokenGive, 
 		uint256 amountGive, 
+		uint256 timestamp
+	);
+
+	event Trade(
+		uint256 id, 
+		address user, 
+		address tokenGet, 
+		uint256 amountGet, 
+		address tokenGive, 
+		uint256 amountGive, 
+		address creator,
 		uint256 timestamp
 	);
 
@@ -139,7 +151,7 @@ contract Exchange {
 			_order.id, 
 			_order.user,
 			_order.tokenGet,
-			_order.amountGet
+			_order.amountGet,
 			_order.tokenGive,
 			_order.amountGive
 		);
@@ -154,17 +166,17 @@ contract Exchange {
 		uint256 _amountGive
 	) internal {
 
-		uint _feeAmount = (amountGet * feePercent) / 100;
+		uint _feeAmount = (_amountGet * feePercent) / 100;
 
 		tokens[_tokenGet][msg.sender] = 
 			tokens[_tokenGet][msg.sender] - 
-			(_amountGet + feeAccount);
+			(_amountGet + _feeAmount);
 		tokens[_tokenGet][_user] = 
 			tokens[_tokenGet][_user] + 
 			_amountGet;
 
 		tokens[_tokenGet][feeAccount] = 
-			tokens[_tokenGet[_user] + 
+			tokens[_tokenGet][feeAccount] + 
 			_feeAmount;
 
 		tokens[_tokenGive][_user] = 
@@ -173,5 +185,18 @@ contract Exchange {
 		tokens[_tokenGive][msg.sender] = 
 			tokens[_tokenGive][msg.sender] + 
 			_amountGive;
+
+		emit Trade(
+			orderCount, 
+			msg.sender,
+			_tokenGet,
+			_amountGet,
+			_tokenGive,
+			_amountGive,
+			_user,
+			block.timestamp
+		);
+
+		orderFilled[_orderId] = true;
 	}
 }
