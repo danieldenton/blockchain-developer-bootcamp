@@ -237,13 +237,20 @@ describe("Exchange", () => {
 				})
 			})
 			describe("Failure", () => {
-				// it("rejects invalid order ids", async () => {
-				// 	const invalidOrderId = 999
-				// 	await expect(exchange.connect(user1).cancelOrder(invalidOrderId)).to.be.reverted
-				// })
-				// it("rejects unauthorized canelations", async () => {
-				// 	await expect(exchange.connect(user2).cancelOrder(1)).to.be.reverted
-				// })
+				it("rejects invalid order ids", async () => {
+					const invalidOrderId = 999
+					await expect(exchange.connect(user2).fillOrder(invalidOrderId)).to.be.reverted
+				})
+				it("rejects already filled orders", async () => {
+					transaction = await exchange.connect(user2).fillOrder(1)
+					await transaction.wait()
+					await expect(exchange.connect(user2).fillOrder(1)).to.be.reverted
+				})
+				it("rejects cancelled orders", async () => {
+					transaction = await exchange.connect(user1).cancelOrder(1)
+					await transaction.wait()
+					await expect(exchange.connect(user2).fillOrder(1)).to.be.reverted
+				})
 			})
 		})
 	})
