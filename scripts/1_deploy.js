@@ -13,15 +13,15 @@ async function main() {
   // Deploy contract
   const pilecoin = await Token.deploy("Pile Coin", "PC", "1000000")
   await pilecoin.deployed()
-  console.log(`Token deployed to: ${pilecoin.address}`)
+  console.log(`PileCoin deployed to: ${pilecoin.address}`)
 
   const mETH = await Token.deploy("mETH", "mETH", "1000000")
   await mETH.deployed()
-  console.log(`Token deployed to: ${mETH.address}`)
+  console.log(`mETH deployed to: ${mETH.address}`)
 
   const mDAI = await Token.deploy("mDAI", "mDAI", "1000000")
   await mDAI.deployed()
-  console.log(`Token deployed to: ${mDAI.address}`)
+  console.log(`mDAI deployed to: ${mDAI.address}`)
 
   const exchange = await Exchange.deploy(accounts[1].address, 10)
   await exchange.deployed()
