@@ -23,9 +23,9 @@ async function main() {
   await mDAI.deployed()
   console.log(`Token deployed to: ${mDAI.address}`)
 
-  const exchange = await Exchange.deploy(accounts[1], 10)
-  await exchange.deployed(`Echange deployed to: ${exchange.address}`)
-  console.log()
+  const exchange = await Exchange.deploy(accounts[1].address, 10)
+  await exchange.deployed()
+  console.log(`Echange deployed to: ${exchange.address}`)
 }
   
 
