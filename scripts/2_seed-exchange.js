@@ -1,5 +1,10 @@
+import { tokens } from "../../"
 
 async function main() {
+
+  const tokens = (n) => {
+  return ethers.utils.parseUnits(n.toString(), "ether")
+}
  
  const accounts = await ethers.getSigners()
 
@@ -14,6 +19,10 @@ console.log(`mETH fethed: ${mETH.address}`)
 
 const exchange = await ethers.getContractAt("Exchange", "0x610178dA211FEF7D417bC0e6FeD39F05609AD788")
  console.log(`Exchange fethed: ${exchange.address}`)
+
+ const sender = accounts[0]
+ const receiver = accounts[1]
+ let amount = tokens(1000)
 
 }
 
