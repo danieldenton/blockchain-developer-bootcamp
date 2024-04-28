@@ -13,7 +13,7 @@ async function main() {
   // Deploy contract
   const token = await Token.deploy("Rumpelina", "RUMP", "1000000")
   await token.deployed()
-  console.log(`Rumpelina deployed to: ${rumpelina.address}`)
+  console.log(`Rumpelina deployed to: ${token.address}`)
 
   // const mETH = await Token.deploy("mETH", "mETH", "1000000")
   // await mETH.deployed()

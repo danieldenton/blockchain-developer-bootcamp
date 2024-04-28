@@ -12,4 +12,9 @@ module.exports = {
       accounts: privateKeys.split(",")
     }
   },
+  etherscan: {
+    apiKey: {
+      sepolia: process.env.ETHERSCAN_API_KEY
+    }
+  }
 };
