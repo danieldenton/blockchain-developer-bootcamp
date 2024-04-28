@@ -11,9 +11,9 @@ async function main() {
   // console.log(`Accounts fetched:\n${accounts[0].address}\n${accounts[1].address}\n`)
 
   // Deploy contract
-  const pilecoin = await Token.deploy("Pile Coin", "PC", "1000000")
-  await pilecoin.deployed()
-  console.log(`PileCoin deployed to: ${pilecoin.address}`)
+  const rumpelina = await Token.deploy("Rumpelina", "RUMP", "1000000")
+  await rumpelina.deployed()
+  console.log(`Rumpelina deployed to: ${rumpelina.address}`)
 
   // const mETH = await Token.deploy("mETH", "mETH", "1000000")
   // await mETH.deployed()
